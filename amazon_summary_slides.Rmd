@@ -1,0 +1,63 @@
+---
+title: "Amazon Summaries"
+author: " "
+date: "2/2/2015"
+output:
+  ioslides_presentation:    
+    transition: faster
+    widescreen: true
+    fig_retina: 2
+    mathjax: default
+    smaller: false
+---
+
+<!-- ## set options ## -->
+```{r, echo=FALSE,message=FALSE,warnings=FALSE}
+library(knitr)
+opts_chunk$set(echo=FALSE,
+               warning=FALSE,
+               message=FALSE)
+```
+
+<!-- ## read chunks ## -->
+```{r, echo=FALSE}
+read_chunk("chunks/chunksA.r")
+```
+
+```{r load.libraries}
+```
+
+```{r load.data}
+```
+
+```{r make.simple.summaries}
+```
+
+## Amazon Book Review Data {.smaller}
+
+
+- Category = Politics & Social Sciences 
+- Total number of books = `r prettyNum(n.books,big.mark=",",scientific=F)` 
+- Total number of reviews = `r prettyNum(nrow(books.politics),big.mark=",",scientific=F)` 
+- The three largest sub-categories are 
+
+```{r,fig.align='center',fig.height=3,fig.width=10}
+
+n.subcat2 %>% 
+  mutate('Number of Reviews'=n,
+         'Number of Books'=n.books,
+         'Reviews/Book'=rev.book) %>%         
+  slice(1:3) %>%
+  select(-n,-n.books,-rev.book) %>%
+  gather(metric,value,-Sub_Cat2) %>%  
+  ggplot(aes(x=Sub_Cat2,y=value,fill=Sub_Cat2)) + geom_bar(stat='identity') + 
+  facet_wrap(~metric,scales='free') + theme_bw()+xlab(' ')+ylab('')+
+  scale_fill_discrete(name="Sub-Category")+
+   theme(axis.ticks = element_blank(), axis.text.x = element_blank())
+
+```
+
+
+
+
+
